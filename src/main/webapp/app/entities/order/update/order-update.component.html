@@ -1,0 +1,194 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-order-heading" data-cy="OrderCreateUpdateHeading" jhiTranslate="orderTrackingApp.order.home.createOrEditLabel">
+        Create or edit a Order
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.driver" for="field_driver">Driver</label>
+          <input type="text" class="form-control" name="driver" id="field_driver" data-cy="driver" formControlName="driver" />
+          <div *ngIf="editForm.get('driver')!.invalid && (editForm.get('driver')!.dirty || editForm.get('driver')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('driver')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.pickUpDate" for="field_pickUpDate">Pick Up Date</label>
+          <div class="d-flex">
+            <input
+              id="field_pickUpDate"
+              data-cy="pickUpDate"
+              type="datetime-local"
+              class="form-control"
+              name="pickUpDate"
+              formControlName="pickUpDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('pickUpDate')!.invalid && (editForm.get('pickUpDate')!.dirty || editForm.get('pickUpDate')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('pickUpDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('pickUpDate')?.errors?.datetimelocal"
+              jhiTranslate="entity.validation.datetimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.repairDate" for="field_repairDate">Repair Date</label>
+          <div class="d-flex">
+            <input
+              id="field_repairDate"
+              data-cy="repairDate"
+              type="datetime-local"
+              class="form-control"
+              name="repairDate"
+              formControlName="repairDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.deliveryDate" for="field_deliveryDate">Delivery Date</label>
+          <div class="d-flex">
+            <input
+              id="field_deliveryDate"
+              data-cy="deliveryDate"
+              type="datetime-local"
+              class="form-control"
+              name="deliveryDate"
+              formControlName="deliveryDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.rOrderNum" for="field_rOrderNum">R Order Num</label>
+          <input type="text" class="form-control" name="rOrderNum" id="field_rOrderNum" data-cy="rOrderNum" formControlName="rOrderNum" />
+          <div *ngIf="editForm.get('rOrderNum')!.invalid && (editForm.get('rOrderNum')!.dirty || editForm.get('rOrderNum')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('rOrderNum')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.invOrderNum" for="field_invOrderNum">Inv Order Num</label>
+          <input
+            type="text"
+            class="form-control"
+            name="invOrderNum"
+            id="field_invOrderNum"
+            data-cy="invOrderNum"
+            formControlName="invOrderNum"
+          />
+          <div
+            *ngIf="editForm.get('invOrderNum')!.invalid && (editForm.get('invOrderNum')!.dirty || editForm.get('invOrderNum')!.touched)"
+          ></div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.statusO" for="field_statusO">Status O</label>
+          <select class="form-control" name="statusO" formControlName="statusO" id="field_statusO" data-cy="statusO">
+            <option [ngValue]="null">{{ 'orderTrackingApp.StatusO.null' | translate }}</option>
+            <option *ngFor="let statusO of statusOValues" [value]="statusO">{{ 'orderTrackingApp.StatusO.' + statusO | translate }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.noteso" for="field_noteso">Noteso</label>
+          <input type="text" class="form-control" name="noteso" id="field_noteso" data-cy="noteso" formControlName="noteso" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.scan" for="field_scan">Scan</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('scanContentType')!.value + ';base64,' + editForm.get('scan')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('scan')!.value"
+              alt="order image"
+            />
+            <div *ngIf="editForm.get('scan')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start">{{ editForm.get('scanContentType')!.value }}, {{ byteSize(editForm.get('scan')!.value!) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('scan', 'scanContentType', 'file_scan')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_scan"
+              data-cy="scan"
+              (change)="setFileData($event, 'scan', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="scan" id="field_scan" data-cy="scan" formControlName="scan" />
+          <input type="hidden" class="form-control" name="scanContentType" id="field_scanContentType" formControlName="scanContentType" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.order.customer" for="field_customer">Customer</label>
+          <select
+            class="form-control"
+            id="field_customer"
+            data-cy="customer"
+            name="customer"
+            formControlName="customer"
+            [compareWith]="compareCustomer"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="customerOption" *ngFor="let customerOption of customersSharedCollection">{{ customerOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

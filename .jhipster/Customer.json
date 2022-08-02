@@ -1,0 +1,45 @@
+{
+  "applications": ["OrderTrackingApp"],
+  "changelogDate": "20220802151202",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "customer",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "locale",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "notesc",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Customer",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "orderss",
+      "otherEntityName": "order",
+      "otherEntityRelationshipName": "customer",
+      "relationshipName": "orders",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "custPieces",
+      "otherEntityName": "piece",
+      "otherEntityRelationshipName": "customer",
+      "relationshipName": "piecess",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

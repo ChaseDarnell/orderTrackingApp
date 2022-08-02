@@ -1,0 +1,118 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-piece-heading" data-cy="PieceCreateUpdateHeading" jhiTranslate="orderTrackingApp.piece.home.createOrEditLabel">
+        Create or edit a Piece
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.piece.serial" for="field_serial">Serial</label>
+          <input type="text" class="form-control" name="serial" id="field_serial" data-cy="serial" formControlName="serial" />
+          <div *ngIf="editForm.get('serial')!.invalid && (editForm.get('serial')!.dirty || editForm.get('serial')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('serial')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.piece.model" for="field_model">Model</label>
+          <input type="text" class="form-control" name="model" id="field_model" data-cy="model" formControlName="model" />
+          <div *ngIf="editForm.get('model')!.invalid && (editForm.get('model')!.dirty || editForm.get('model')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('model')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.piece.desc" for="field_desc">Desc</label>
+          <input type="text" class="form-control" name="desc" id="field_desc" data-cy="desc" formControlName="desc" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.piece.manu" for="field_manu">Manu</label>
+          <input type="text" class="form-control" name="manu" id="field_manu" data-cy="manu" formControlName="manu" />
+          <div *ngIf="editForm.get('manu')!.invalid && (editForm.get('manu')!.dirty || editForm.get('manu')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('manu')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.piece.notesp" for="field_notesp">Notesp</label>
+          <input type="text" class="form-control" name="notesp" id="field_notesp" data-cy="notesp" formControlName="notesp" />
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="orderTrackingApp.piece.ordersBelonged" for="field_ordersBelongeds">Orders Belonged</label>
+          <select
+            class="form-control"
+            id="field_ordersBelongeds"
+            data-cy="ordersBelonged"
+            multiple
+            name="ordersBelongeds"
+            formControlName="ordersBelongeds"
+            [compareWith]="compareOrder"
+          >
+            <option [ngValue]="orderOption" *ngFor="let orderOption of ordersSharedCollection">{{ orderOption.id }}</option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['ordersBelongeds'])!.invalid &&
+            (editForm.get(['ordersBelongeds'])!.dirty || editForm.get(['ordersBelongeds'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['ordersBelongeds'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="orderTrackingApp.piece.customer" for="field_customer">Customer</label>
+          <select
+            class="form-control"
+            id="field_customer"
+            data-cy="customer"
+            name="customer"
+            formControlName="customer"
+            [compareWith]="compareCustomer"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="customerOption" *ngFor="let customerOption of customersSharedCollection">{{ customerOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
