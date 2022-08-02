@@ -1,0 +1,69 @@
+
+application {
+  config {
+    baseName OrderTrackingApp,
+    applicationType monolith,
+    packageName com.apsorders.orderstr,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework angular
+  }
+  entities *
+}
+
+entity Order {
+	driver String required,
+    pickUpDate ZonedDateTime required,
+    repairDate ZonedDateTime,
+    deliveryDate ZonedDateTime,
+    rOrderNum String required unique,
+    invOrderNum String unique,
+    statusO StatusO,
+    noteso String,
+    scan ImageBlob
+    
+}
+
+entity Customer {
+    name String required,
+    locale String required unique,
+    notesc String
+}
+
+entity Piece {
+	serial String required,
+    model String required,
+    desc String,
+    manu String required,
+    notesp String,
+    
+    
+}
+
+relationship OneToMany {
+  Customer{orders(orderss)} to Order
+  Customer{piecess(custPieces)} to Piece
+}
+
+relationship ManyToMany {
+  Piece{ordersBelonged required} to Order{piecesIn required}
+}
+
+
+enum StatusO {
+	PICKED_UP,
+    TBR,
+    OB,
+    REPAIRED,
+    OFD,
+    DELIVERED
+}
+
+enum StatusP {
+	TBR,
+    HOLDREFURB,
+    HOLDREPAIR,
+    REFURBBED,
+    REPAIRED
+}
+    
