@@ -1,0 +1,75 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="order">
+      <h2 data-cy="orderDetailsHeading"><span jhiTranslate="orderTrackingApp.order.detail.title">Order</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ order.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.driver">Driver</span></dt>
+        <dd>
+          <span>{{ order.driver }}</span>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.pickUpDate">Pick Up Date</span></dt>
+        <dd>
+          <span>{{ order.pickUpDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.repairDate">Repair Date</span></dt>
+        <dd>
+          <span>{{ order.repairDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.deliveryDate">Delivery Date</span></dt>
+        <dd>
+          <span>{{ order.deliveryDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.rOrderNum">R Order Num</span></dt>
+        <dd>
+          <span>{{ order.rOrderNum }}</span>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.invOrderNum">Inv Order Num</span></dt>
+        <dd>
+          <span>{{ order.invOrderNum }}</span>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.statusO">Status O</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'orderTrackingApp.StatusO.' + order.statusO }}">{{ order.statusO }}</span>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.noteso">Noteso</span></dt>
+        <dd>
+          <span>{{ order.noteso }}</span>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.scan">Scan</span></dt>
+        <dd>
+          <div *ngIf="order.scan">
+            <a (click)="openFile(order.scan, order.scanContentType)">
+              <img [src]="'data:' + order.scanContentType + ';base64,' + order.scan" style="max-width: 100%" alt="order image" />
+            </a>
+            {{ order.scanContentType }}, {{ byteSize(order.scan) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="orderTrackingApp.order.customer">Customer</span></dt>
+        <dd>
+          <div *ngIf="order.customer">
+            <a [routerLink]="['/customer', order.customer.id, 'view']">{{ order.customer?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/order', order.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

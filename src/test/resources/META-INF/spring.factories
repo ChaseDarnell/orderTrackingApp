@@ -1,1 +1,1 @@
-org.springframework.test.context.ContextCustomizerFactory = com.aps.ordertracking.config.TestContainersSpringContextCustomizerFactory
+org.springframework.test.context.ContextCustomizerFactory = com.apsorders.orderstr.config.TestContainersSpringContextCustomizerFactory

@@ -7,35 +7,24 @@ services:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://ordertrackingapp-postgresql:5432/OrderTrackingApp
-      - SPRING_LIQUIBASE_URL=jdbc:postgresql://ordertrackingapp-postgresql:5432/OrderTrackingApp
+      - SPRING_DATASOURCE_URL=jdbc:mysql://ordertrackingapp-mysql:3306/ordertrackingapp?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+      - SPRING_LIQUIBASE_URL=jdbc:mysql://ordertrackingapp-mysql:3306/ordertrackingapp?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
-      - SPRING_ELASTICSEARCH_URIS=http://ordertrackingapp-elasticsearch:9200
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 127.0.0.1:8081:8081
-  ordertrackingapp-postgresql:
-    image: postgres:14.4
+      - 127.0.0.1:8080:8080
+  ordertrackingapp-mysql:
+    image: mysql:8.0.29
     # volumes:
-    #   - ~/volumes/jhipster/OrderTrackingApp/postgresql/:/var/lib/postgresql/data/
+    #   - ~/volumes/jhipster/OrderTrackingApp/mysql/:/var/lib/mysql/
+    volumes:
+      - ./config/mysql:/etc/mysql/conf.d
     environment:
-      - POSTGRES_USER=OrderTrackingApp
-      - POSTGRES_PASSWORD=
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=ordertrackingapp
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 127.0.0.1:5432:5432
-  ordertrackingapp-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.4
-    # volumes:
-    #   - ~/volumes/jhipster/OrderTrackingApp/elasticsearch/:/usr/share/elasticsearch/data/
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
-    ports:
-      - 127.0.0.1:9200:9200
-      - 127.0.0.1:9300:9300
-    environment:
-      - 'ES_JAVA_OPTS=-Xms256m -Xmx256m'
-      - 'discovery.type=single-node'
+      - 127.0.0.1:3306:3306
+    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp

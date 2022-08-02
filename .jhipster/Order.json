@@ -1,0 +1,73 @@
+{
+  "applications": ["OrderTrackingApp"],
+  "changelogDate": "20220802151201",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "jhi_order",
+  "fields": [
+    {
+      "fieldName": "driver",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "pickUpDate",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "repairDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "deliveryDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "rOrderNum",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "invOrderNum",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "statusO",
+      "fieldType": "StatusO",
+      "fieldValues": "PICKED_UP,TBR,OB,REPAIRED,OFD,DELIVERED"
+    },
+    {
+      "fieldName": "noteso",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "scan",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Order",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "orders",
+      "relationshipName": "customer",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "piece",
+      "otherEntityRelationshipName": "ordersBelonged",
+      "ownerSide": false,
+      "relationshipName": "piecesIn",
+      "relationshipType": "many-to-many",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "no"
+}

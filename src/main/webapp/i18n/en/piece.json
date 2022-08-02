@@ -1,0 +1,30 @@
+{
+  "orderTrackingApp": {
+    "piece": {
+      "home": {
+        "title": "Pieces",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Piece",
+        "createOrEditLabel": "Create or edit a Piece",
+        "notFound": "No Pieces found"
+      },
+      "created": "A new Piece is created with identifier {{ param }}",
+      "updated": "A Piece is updated with identifier {{ param }}",
+      "deleted": "A Piece is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Piece {{ id }}?"
+      },
+      "detail": {
+        "title": "Piece"
+      },
+      "id": "ID",
+      "serial": "Serial",
+      "model": "Model",
+      "desc": "Desc",
+      "manu": "Manu",
+      "notesp": "Notesp",
+      "ordersBelonged": "Orders Belonged",
+      "customer": "Customer"
+    }
+  }
+}
