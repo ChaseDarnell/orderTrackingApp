@@ -1,0 +1,107 @@
+
+application {
+  config {
+    baseName OrderTrackingApp,
+    applicationType monolith,
+    packageName com.apsorders.orderstr,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework angular
+  }
+  entities *
+}
+
+entity Order {
+    pickUpDate ZonedDateTime required,
+    repairDate ZonedDateTime,
+    deliveryDate ZonedDateTime,
+    rOrderNum String required unique,
+    invoiceOrderNum String unique,
+    statusO StatusO,
+    noteso String,
+    scan ImageBlob
+    
+}
+
+entity Customer {
+    name String required,
+    locale String required unique,
+    notesc String
+}
+
+entity Piece {
+	serial String required,
+    model String required,
+    desc String,
+    manu String required,
+    notesp String,
+    statusp StatusP,
+    genericPic ImageBlob,
+    charge Float
+}
+
+entity Part {
+	name String required,
+    desc String required,
+    cost Float    
+}
+
+entity Supplier {
+	name String required,
+    contactName String,
+    phoneNumber String,
+    email String
+}
+
+entity Tech {
+	type Type required    
+}
+
+entity Driver {
+	vehicle String required
+}
+
+relationship ManyToOne {
+  Order to Customer{orders}
+  Piece to Customer{piecess}
+  Piece to Order{pickup}
+  Part to Supplier{partsProvided}
+  Piece to Supplier{piecesProvided}
+  Part to Piece{usedParts}
+  Tech to Piece{workedOnBy}
+  Tech to Order{repairedBy}
+  Driver to Order{pickedUpBy}
+  Part to Supplier{inventory}
+}
+
+relationship OneToOne {
+	Tech{internalUser} to User
+}
+
+relationship OneToOne {
+	Driver{internalUser} to User
+}
+
+enum Type {
+	POWER,
+    SWEEP,
+    TOP
+}
+
+enum StatusO {
+	PICKED_UP,
+    TBR,
+    OB,
+    REPAIRED,
+    OFD,
+    DELIVERED
+}
+
+enum StatusP {
+	TBR,
+    HOLDREFURB,
+    HOLDREPAIR,
+    REFURBBED,
+    REPAIRED
+}
+    
